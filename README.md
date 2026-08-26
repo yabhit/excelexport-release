@@ -10,10 +10,26 @@
 
 | 平台 | 文件 |
 |------|------|
-| Windows (64 位) | [excelexport-v1.0.0-windows-amd64.zip](v1.0.0/excelexport-v1.0.0-windows-amd64.zip) |
-| Linux (64 位) | [excelexport-v1.0.0-linux-amd64.zip](v1.0.0/excelexport-v1.0.0-linux-amd64.zip) |
-| macOS (Intel) | [excelexport-v1.0.0-darwin-amd64.zip](v1.0.0/excelexport-v1.0.0-darwin-amd64.zip) |
-| macOS (Apple Silicon) | [excelexport-v1.0.0-darwin-arm64.zip](v1.0.0/excelexport-v1.0.0-darwin-arm64.zip) |
+| Windows (64 位) | [excelexport-v1.0.1-windows-amd64.zip](v1.0.1/excelexport-v1.0.1-windows-amd64.zip) |
+| Linux (64 位) | [excelexport-v1.0.1-linux-amd64.zip](v1.0.1/excelexport-v1.0.1-linux-amd64.zip) |
+| macOS (Intel) | [excelexport-v1.0.1-darwin-amd64.zip](v1.0.1/excelexport-v1.0.1-darwin-amd64.zip) |
+| macOS (Apple Silicon) | [excelexport-v1.0.1-darwin-arm64.zip](v1.0.1/excelexport-v1.0.1-darwin-arm64.zip) |
+
+---
+
+## 更新日志
+
+### v1.0.1（当前版本）
+- **DSL 语法重构**：类型标注去除 `@` 前缀，改为裸写（`k` / `i` / `f` / `s` / `b` / `uniq` / `a` / `r:Sheet`）。
+- 字段归属端完全由第 1 行 `cs` 决定，移除 `@i^s` / `@s^c` 类型级双端标记与 `@@` 死代码。
+- 单行常量表的转置标记由 `@transpose` 改为在 A1 单元格写 `/`。
+- 引擎、解析器、生成器（JSON / Lua / XML）同步新 DSL 语义；转置检测与跨表引用解析相应调整。
+- 依赖调整：`golang.org/x/net`、`golang.org/x/text` 升为直接依赖。
+- 文档同步（`AGENTS.md`、各 `DSL_SPEC*.md`、`PARSER_DESIGN.md`、README）。
+- UI：帮助页重写、样式增强、文案微调；移除前端轮询改为按需刷新、导出按钮等宽。
+- 新增 `workspace` 解码回归测试（GBK / UTF-8）。
+
+> 旧版 v1.0.0 仍可在 [`v1.0.0/`](v1.0.0/) 获取，但建议升级到 v1.0.1 以使用新 DSL。
 
 ---
 
@@ -41,7 +57,7 @@
 
 - 本仓库仅用于**分发编译好的发行包**与说明文档。
 - 完整**源代码**在私有仓库：<https://github.com/yabhit/excelexport>
-- 当前版本：**v1.0.0**
+- 当前版本：**v1.0.1**
 - 许可证：待定（源代码见上方私有仓库）
 
 ---
@@ -53,7 +69,7 @@
 | 行 | 含义 | 示例 |
 |----|------|------|
 | 1 | `cs` 标记 | `cs` / `s` / `c`（两端 / 仅服务端 / 仅客户端） |
-| 2 | 类型标注 | `@i` / `@f` / `@s` / `@b`（整数 / 浮点 / 字符串 / 布尔） |
+| 2 | 类型标注 | `i` / `f` / `s` / `b`（整数 / 浮点 / 字符串 / 布尔），裸写、不带 `@` |
 | 3 | 字段名 | `id` / `name` / `hp` |
 | 4 | 字段说明 | `编号` / `名称` / `血量` |
 | 5+ | 数据行 | `1001` / `slime` / `100` |
