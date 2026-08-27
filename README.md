@@ -10,16 +10,25 @@
 
 | 平台 | 文件 |
 |------|------|
-| Windows (64 位) | [excelexport-v1.0.1-windows-amd64.zip](v1.0.1/excelexport-v1.0.1-windows-amd64.zip) |
-| Linux (64 位) | [excelexport-v1.0.1-linux-amd64.zip](v1.0.1/excelexport-v1.0.1-linux-amd64.zip) |
-| macOS (Intel) | [excelexport-v1.0.1-darwin-amd64.zip](v1.0.1/excelexport-v1.0.1-darwin-amd64.zip) |
-| macOS (Apple Silicon) | [excelexport-v1.0.1-darwin-arm64.zip](v1.0.1/excelexport-v1.0.1-darwin-arm64.zip) |
+| Windows (64 位) | [excelexport-v1.0.2-windows-amd64.zip](v1.0.2/excelexport-v1.0.2-windows-amd64.zip) |
+| Linux (64 位) | [excelexport-v1.0.2-linux-amd64.zip](v1.0.2/excelexport-v1.0.2-linux-amd64.zip) |
+| macOS (Intel) | [excelexport-v1.0.2-darwin-amd64.zip](v1.0.2/excelexport-v1.0.2-darwin-amd64.zip) |
+| macOS (Apple Silicon) | [excelexport-v1.0.2-darwin-arm64.zip](v1.0.2/excelexport-v1.0.2-darwin-arm64.zip) |
 
 ---
 
 ## 更新日志
 
-### v1.0.1（当前版本）
+### v1.0.2（当前版本）
+- **单实例**：再次双击 EXE 会先按 PID + 映像名校验结束已运行实例，再接管 17890 端口，实现「重启」而非多开（仅 Windows 生效）。
+- **显式退出**：界面右上「退出」按钮调用 `POST /api/quit` 立即关闭后台进程并释放 exe 文件锁，便于替换升级；不再随关闭浏览器标签页自动退出。
+- **无控制台窗口**：Windows 发行版用 `-H windowsgui` 编译，双击不再弹黑色命令行窗口；打开文件 / 选路径时也不闪黑窗。
+- **粘贴导出**：任务表每行新增「粘贴导出」按钮，可直接把浏览器中打开的在线文档选区（含 4 行表头）粘贴导出；CSV 行仍决定输出路径 / 文件名 / Sheet，不支持 `r:Sheet` 跨表引用（显式报错）。
+- **长路径可见**：路径输入框与任务表的 Excel 名 / Sheet 单元格、CSV 编辑器的长 server/client 路径，悬浮即显示完整内容（原生 tooltip）。
+- 文档（`AGENTS.md` / `help.html`）同步上述变更。
+- 修复：跨平台编译问题——`SysProcAttr.CreationFlags` 为 Windows 专属字段，已抽为 build tag 辅助函数（`cli_windows.go` / `cli_posix.go` / `sysproc_windows.go` / `sysproc_posix.go`），确保 linux / macOS 可正常交叉编译。
+
+### v1.0.1
 - **DSL 语法重构**：类型标注去除 `@` 前缀，改为裸写（`k` / `i` / `f` / `s` / `b` / `uniq` / `a` / `r:Sheet`）。
 - 字段归属端完全由第 1 行 `cs` 决定，移除 `@i^s` / `@s^c` 类型级双端标记与 `@@` 死代码。
 - 单行常量表的转置标记由 `@transpose` 改为在 A1 单元格写 `/`。
@@ -29,7 +38,7 @@
 - UI：帮助页重写、样式增强、文案微调；移除前端轮询改为按需刷新、导出按钮等宽。
 - 新增 `workspace` 解码回归测试（GBK / UTF-8）。
 
-> 旧版 v1.0.0 仍可在 [`v1.0.0/`](v1.0.0/) 获取，但建议升级到 v1.0.1 以使用新 DSL。
+> 旧版 v1.0.0 / v1.0.1 仍可在 [`v1.0.0/`](v1.0.0/) / [`v1.0.1/`](v1.0.1/) 获取，但建议升级到 v1.0.2。
 
 ---
 
@@ -57,7 +66,7 @@
 
 - 本仓库仅用于**分发编译好的发行包**与说明文档。
 - 完整**源代码**在私有仓库：<https://github.com/yabhit/excelexport>
-- 当前版本：**v1.0.1**
+- 当前版本：**v1.0.2**
 - 许可证：待定（源代码见上方私有仓库）
 
 ---
